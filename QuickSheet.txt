@@ -1,0 +1,615 @@
+Linux distributions: 
+-> CentOS, Fedora, RHEL             use yum (Yellowdog Update Manager) as the primary package manager.
+-> Ubantu, Debian                   use apt package manager by default.
+
+Linux commands:
+-----------------
+User, Groups managements:  (visudo || /etc/sudoers)
+-> :set number
+-> su -                           (login as root)
+-> su - [username]                (login as username)
+-> useradd [username]             (to add a user)
+-> passwd [username]              (to change the passwd)
+-> userdel [username]             (to delete a user, also del the dir in home)
+-> groupadd [groupname]           (to create a group)
+-> usermod -aG [group] [user]     (to add a user to a group)
+-> gpasswd -d [user] [group]      (to remove a user from a group)
+-> SUDO ACCESS To ANY USER        (to provide sudo access, add user to wheel group)
+-> which [service/file/dir]       (to get the location of it)
+-> shift+a / shift+e / shift+6    (start/end of line)
+
+- AWS INSTANCES: 
+  - ec2-user                    (for login)
+  - sudo su                     (for starting in root)
+  - sudo yum update             (update system package respo)
+  - echo "$?"                   (result of last executed command i.e '1 or 0')
+  - df -Th                      (displays information about total space and available space on a file system)
+  - free -h                     (To know the free & used memeory)
+  - sudo sh -c 'echo 1 >  /proc/sys/vm/drop_caches'                     (To clear RAM Memory Cache)
+  - ll -lrth                    (display space details of dirs)
+  - du -hsc *                   (display each dir disk space consumption)
+  - ip addr / hostname -I       (to get the ip) 
+  - yum install wget            (for installing wget only once)
+  - sh script.sh                (to start the script)
+  - wget <url>                  (raw github script url)
+  - chmod 777 <filename>        (for giving all permissions including executable)
+  - ps -ef|grep <serviceName>   (list all process associated with service)
+  - fuser PORT/tcp              (list out all tcp proccess associated with that port)
+  - cd ..                       (will back to previous folder)
+  - tar -xfz foldername         (to unzip .tgz )
+  - vi <filename>               (to view file in vim editor)
+  - click i to insert 
+  - click esc to close insert
+  - /<word>                     (to search a word in vim editor)
+  - cat <file> | grep -i <word> (give the para which contains that word)
+  - :wq                         (close vim editor with saving chnages)
+  - :q!                         (close vim editor without saving)
+  - telnet [remote_machine_IP]  (for remote connections despite its lack of security, default port 23, quit)
+  - service <serviceName> status
+  - service <serviceName> start     after that [ctrl_z] (to run that service in background) 
+  - service <serviceName> stop
+  - bg                          (to check the background services if running) 
+  - curl <url>                  (Downloading files from the internet, Endpoint testing, Debugging, Error logging)
+  - > filename                  (to empty a file)
+  - script commands.txt         (to record the command that u use, after completion press ctrl+d)
+
+-> How to create a tar package/ How to put file in tar package?
+   - tar cvf <fileName.tar> <file1> <file2>
+-> How to compress a tar file?
+   - gzip <file.tar>
+-> How to unzip a tar.gz file?
+   - gunzip <file.tar.gz>
+-> How to unzip a tar file?'
+   - tar xvf <file.tar>
+
+==================================================
+Note: To connect Server2 from Server1 using SSH connection.
+-> U need to add Server1 ip + port 22 in INBOUND rules of Server2 in AWS.
+-> Copy the id_rsa.pub key to Server2/root/.ssh & authorize it.
+
+
+go to destination server=>
+ssh-keygen -t rsa
+cd /root/.ssh/
+cat id_rsa.pub
+copy the public key
+go to the source server=>
+go to /root/.ssh/
+create a normal file(no specific extension) and paste the copied key and save
+cat keyfile_name >> authorized_keys
+
+cd ~ 
+ssh root@<sourceIp>  (From destination server to check connection)
+scp -r root@<sourceIp>:<SOURCE_PATH> <DESTINATION_PATH>
+=================================================
+
+<------------------------------------------------------->
+useradd replica_user
+passwd replica_user [replica_user]
+su - replica_user
+mkdir ~/.ssh
+chmod 700 /home/replica_user/.ssh
+copy App server Replica_user key into a [file]
+cat [file] >> authorized_keys
+chmod 600 authorized_keys
+exit
+sudo vi /etc/ssh/sshd_config 
+AllowUsers root ec2-user replica_user
+sudo systemctl restart sshd
+===============================
+su - replica_user  (APP_SERVER)
+ssh replica_user@DESTINATION_SERVER
+===============================
+chown replica_user [fileName]   (Inside MASTER DB)
+
+NOTE: Providing 700 & 600 permission to custome user dir will afect the ec2-user & root so don't do be alert.
+<------------------------------------------------------->
+
+
+cd /opt/, cd /etc/init.d/
+
+- passwd : to change the password
+- whoami : to know your position/role
+- users, who, w : to know the user logged in detials
+- halt/ shutdown/ reboot
+- clear = ctrl + l
+- ps  =  show all the process running followed by PID & other details.
+- kill <PID> : to terminate a process
+- exit
+- ctrl + x
+- date
+- cal
+- ls / ll : list
+- ls -a: list all file including hidden files.
+- ls -R: list all including sub dir or files
+- ls s*.log : to list all the files whole name start with 's' & ends with '.log'
+- chmod : to change the permission of file/dir
+- pwd : print working directory
+- . : current dir
+- .. : parent dir
+- less / cat <fileName>: to view file content on cmd
+- diff <file1> <file2>: to compare file contents.
+- cat <f1> <f2>: concate the file context of both files.
+- head <fileName>: show only 1st 10 lines of file text
+- tail <fileName>: show only last 10 lines of file text
+- head -100 <fileName>: show only 1st 100 lines of file text
+- wc <fileName>: (word count) display lineNo, totalWords, byte/character within a file
+- cp file* dir1- copy & paste all files starting with 'file' into dir1
+- cp *.txt dir1- copy & paste all files ending with '.txt' into dir1
+- ctrl + a: move the cursor to the 1st char
+- ctrl + e: move the cursor to the end char
+- ctrl + y: To redo  command in the terminal.
+- ctrl + u: To clear a command in terminal.
+- ctrl + d: to delete the character
+- alt + f: jump 1 word forward
+- alt + b: jump 1 word backward
+- alt + u: to make word as uppercase
+- ls -i : list stuffs with index node
+- ls -l : detail description
+- ln -s : create shortcut link
+- / : root dir
+- cd : change dir
+- cd ~ : get back to  home dir
+- mkdir <dirName>: make dir 
+- rmdir <dirName>: remove dir 
+- touch <fileName>: create text file
+- rm <fileName>: remove file
+- rm -R: remove all inside the dir
+- rm -i <fileName>: before deleting pop a message
+- rm -f <fileName/dir>: force remove
+- rm -Rv: (verbose) dispaly the summary of all remove files
+- rm -rf /: Most dangerous- It will delete all the files in ur system without confirmation
+- cp <targetfile> <newFileName>: (copy-paste)
+- cp -R dir2 dir1: copy & paste dir2 into dir1
+- cp <f1> <f2> dir1: copy & paste f1 & f2 into dir1
+- mv <oldfile> <newfile>: remane the file
+- mv <file> .<file>: make a file hidden
+- mv f1 dir1: move f1 into dir1
+- mv dir1 dir2: move dir1 into dir2
+- file <fileName>: to check what type of file?
+- space characters: $ < > & " ' | \ ;
+- alt + l; to make word as lowercase
+- gedit <fileName>: to edit a file. gedit is the default graphical text editor for gnome desktop.
+- gedit <fileName>: to create a file
+- nano <fileName>: to edit a file. namo is a command line editor. (ctrl+O=save, ctrl+X=exit, ctrl+W=search...)
+- *: any no of charaters
+- ?: any 1 charater
+- [a,b,c]: include any of them
+- [[:digit:]], [![:digit:]], [[:alpha:]], [[:alnum]], [[:upper:]], [[:lower:]]
+- alias <newCommandName>="  function to perform  ": to create a custome command
+- unalias <commandName>: to delete the custome command
+
+
+
+
+Bash Scrpit (space & character sensitive, untyped language):
+--------------
+- sudo su : to get super user
+- useradd -m <new user> : to add a new user
+- passwd <new user> : to add a new user password
+- su -<new user> : to change to new user
+- #!/bin/bash : insert the shebang line at the very beginning of ur shell script.
+- cat /etc/shells : display all the shell u have in ur system.
+- cat <shellscript> : display the content of ur script.
+- chmod u+x <file.sh> : to make ur script executable.
+- echo $PATH : display all the env path separated by :
+- export PATH=$PATH:/home/user1 : to add a new (/home/user1) path in ur path env.
+- unset VARIABLE_NAME : to delete the env path variable.
+- # line : to comment a line except #!/bin/bash
+
+Q: How to use variables?
+------------------------
+echo "What is ur name?"
+read name
+echo "Hello, $name!" 
+or 
+echo "Hello, $(whoami)!"
+------------------------
+Note : using '' will not work.
+
+- readonly var = value : to define a contant variable.
+
+Q: How we can store a result of an executable command?
+---------------------------------
+- var=$(command) or var=`command`
+---------------------------------
+Ex: var d=`date`
+echo $d = display current date
+
+Q: Write a script to count lines in a file?
+------------------------------------------
+#!/bin/bash
+echo -n "Please enter a filename "
+read filename
+count=$(wc -l < $filename)
+echo "There are $count lines in $filename"
+-------------------------------------------  or
+#!/bin/bash
+count=$(wc -l < $1)
+echo "There are $count lines in $1"
+---------------------------------------
+Note: 
+$0 = The name of the bash script.
+$1, $2, $3 = The bash script arguements.
+$$ = The process id of the current shell.
+$# = The total number of arguments passed to the script.
+$@ = The value of all arguments passed to the script.
+$? = The exit status of the last executed command.
+$! = The process id of last executed command.
+
+Q: How to create an array?
+arrayName= (val1 val2 val3 val4)
+------------------------------------
+#!/bin/bash
+files=("f1.txt" "f2.txt" "f3.txt")
+echo ${files[2]} ${files[1]} ${files[0]}      # f3.txt f2.txt f1.txt
+echo ${files[*]}                              # display all elements of an array
+echo ${#files[@]}                             # to get the no of elements in an array
+files[0]="new.txt"                            # to assign an new value at index 0
+files+=("new1.txt")                           # to append an new element in an array at last
+unset files[2]                                # to delete an index 2 element
+unset files                                   # to delete the whole array
+-------------------------------------
+
+- echo ${#varName}      # total char in a variable
+
+Q: How to concatenate variables?
+str1="mr."
+str2="x"
+str3=$str1$str2
+echo $str3              #mr.x
+ 
+Q: How to find substring?
+str="Bash is Cool"
+word="Cool"
+expr index "$str" "$word"         # 9  (0 if not found)
+foss="Fedora is a free operating system"
+echo ${foss:0:6}                  #Fedora
+echo ${foss:12}                   #free operating system
+
+Q: How to replace substring?
+foss="Fedora is a free operating system"
+echo ${foss/Fedora/Ubantu}               #Ubantu is a free operating system
+echo ${foss/free/popular}                #Fedora is a popular operating system
+echo ${foss/free}                        #Fedora is a operating system
+---------------------------------------
+
+Conditions & statements:
+-------------------------
+if [ $(whoami)='root' ]; then
+  echo "You are root"
+fi
+---------------------------
+
+if [ $(whoami)='root' ]; then
+  echo "You are root"
+else 
+  echo "You are not root"
+fi
+---------------------------
+
+AGE=$1
+
+if [ $AGE -lt 13]; then
+  echo "You are a kid"
+elif [ $AGE -lt 20 ]; then
+  echo "You are a teenager"
+elif [ $Age -lt 65 ]; then
+  echo "You are an adult"
+else
+  echo "You are an elder"
+fi
+-----------------------------
+
+Char=$!
+
+case $char in                         # Switch statement
+   [a-z])
+      echo "Small Alphabet.";;
+   [A-Z])
+      echo "Big Alphabet.";;
+   [0-9])
+      echo "Numbers.";;
+   *)                                 # default statement
+     echo "Special Character.";;
+esac
+-------------------------------
+
+Note:
+$a -lt $b     =     $a < $b
+$a -gt $b     =     $a > $b
+$a -le $b     =     $a <= $b
+$a -ge $b     =     $a >= $b
+$a -eq $b     =     $a == $b
+$a -ne $b     =     $a != $b
+-e $File      =     $File exists
+-d $File      =     $File exists & is a directory 
+-r $File      =     $File is readable or not
+-x $File      =     $File is executable or not
+-f $File      =     $File exists & is a regular file
+-w $File      =     $File is writeable or not
+-L $File      =     $File exists & is a soft link(symbolic)
+$Str1 = $Str2 =     $Str1 is equal to $Str2
+$Str1 = $Str2 =     $Str1 is NOT equal to $Str2
+-z$Str        =     $Str is empty
+
+
+Loop Statements:
+-----------------
+
+for((initialize; condition, increment)); do
+   [commands]
+done
+or
+for item in [LIST]; do 
+    [commands]
+done
+
+Ex:
+for ((i=0; i<10; i++)); do
+    echo "Hello, Friend $i"
+done
+or 
+for i in {0..9}; do 
+    echo "Hello, Friend $i"
+done
+----------------------------------------------
+
+while [ condition ]; do        # while loop iterates until the condition is true
+      [commands]
+done
+Ex:
+num=0                    
+while [ $num -le 9 ]; do 
+    echo "Hello, Friend! $num"
+    num=$(($num+1)) 
+done
+----------------------------------
+
+until [ condition ]; do       # until loop iterates until the condition is false
+      [commands]
+done
+Ex:
+num=0                    
+while [ $num -ge 9 ]; do 
+    echo "Hello, Friend! $num"
+    num=$(($num+1)) 
+done
+------------------------------------
+
+for ((i=1; i<=10; i++)); do
+    echo $i
+    if [ $i -eq 3 ]; then
+       break
+    fi
+done                             # 1 2 3
+
+for ((i=0; i<=10; i++)); do
+    if [ $(( $i % 2 )) -eq 0 ]; then
+       continue
+    fi
+    echo $i
+done                             # 1 3 5 7 9
+---------------------------------------------
+
+Q: How to create a function in bash script?
+function_name() {
+  commands
+}
+or
+function function_name() {
+  commands
+}
+
+Q: How to debug a script?
+-x <script_name> <arguement if needed>
+
+Q: How to debug a specific portion of script?
+set -x        # activate debugging from here
+set +x        # stop debugging from here
+-----------------------------------------
+to know more : set --help | less
+
+
+
+vim editor:
+------------
+> vi <FileName>: To edit the file in VIM editor
+> :w = to save a file
+> :w <newFile>: to save & create a new file
+> :q = to exit/quite
+> :wq = save & quit
+> :q! = quit without saving
+> zz = save if changed & quit
+> $ = end of line
+> 0 = start of line
+> w = forward a word
+> b = backword a word
+> :set number = Enable line number
+> :set nonumber = set number
+> :<line number> = set nonumber
+> Ctrl + u = navigates a half-page up at a time. Think of 'u' like 'up'. 
+> Ctrl + d = navigates a half-page down at a time. Think of 'd' like 'down'.
+> G = navigates to bottom of file
+> b = navigates backwards a word
+> w = navigates forward a word.
+> /searchterm = to search
+> n = next term
+> N = previous term
+> /\csearchterm = to case insensitive search
+> o = inserts a line below the current line.
+
+
+
+Git Bash:
+----------
+Set Up:
+------
+> git config -- global user.name "Username"   : Set the username
+> git config -- global user.name              : view username
+> git config -- global user.email "Email"     : Set the useremail
+> git config -- global user.email             : view useremail
+> git config -- global --edit                 : to edit username & useremail
+> git config -- list                          : view username & useremail
+> cat ~/.gitconfig                            : See git's user based config file
+
+> git init <FolderName>                       : git will initialize the current <FolderName> is optional 
+> git add                                     :
+> git commit -m "Message"                     :
+> git commit -am "Message"                    :
+> git log                                     :
+> git clone <repoUrl> <FolderName>            :
+> git status/ git status -s                   : Shows which files have been modified in the working directory vs Git's staging area.
+> git checkout -b <BranchName>                :   
+> git checkout <BranchName>                   :
+
+
+> git reset HEAD <FileName>                   : to revert the changes of that file.
+> git reset <commithash>                      : to revert/go to previous <commithash> commits & start again. By deleteing the commits made after that <commithash>.  
+> git log --oneline                           : it gives just one line per commit followed by commit hash & message
+> git revert HEAD --no-edit                   : to revert the last commit, --no-edit:to skip the commit message editor (getting the default revert message)
+> git revert HEAD~x                           : x being a number. 1 going back one more, 2 going back two more, etc. Hence we can go back to previous commits & start again.
+
+Note : The main adv of using reset over revert is while reset it brings the repository back to an earlier state in the commits without making a new commit where as while revert a commit message will get displayed.
+
+> git commit --amend -m "New Commit message"  : to change the last commit message.
+
+> mkdir .ssh / cd .ssh / ssh-keygen -t rsa -C "useremail" : Generating an SSH Key.
+> ssh -T git@github.com                       : to verify SSH authenication. This command uses ssh to connect to GitHub over the SSH protocol.
+
+> clear
+> exit
+
+
+Docker:
+---------
+
+Docker: A containerization platform for developing, packaging, shipping & running applications.
+Images: Package template to create containers.
+Containers: Running Instances of Images. Isolated environment to run an application.
+
+Docker                                Vs                           VMs
+low imapct on OS, fast                                             High impact on OS, slower
+low disk space usage                                               high disk space usage
+sharing, re-building                                               ===
+easy distribution                                                  distribution is challenging
+encapsulate apps instead of whole Machine.                         Encapsulate whole machine.
+
+
+
+
+
+docker build <docker-file-path>                            :         To build docker image.
+docker build -t <customImgName>:<version> <doc-file-path>  :         To build docker image with version.
+docker run <image-name>                                    :         To pull & run the container.(To get the image id)
+docker ps                                                  :         List all running containers.
+docker ps -a                                               :         To list all the active & terminated containers.
+docker run --name "customeImgName" <image-name>            :         To provide custom Img name.
+docker rm <image-name> | <containerID>                     :         To remove an image or container permanantely.
+docker images                                              :         To list all present images. 
+docker tag <img-name>:<version> <customImgName>:<version>  :         To rename an image.
+docker rmi <image-name>                                    :         To remove image but before that make sure no running container is using that image.
+docker pull <image-name>                                   :         To pull the image but not get run.
+docker exec <image-name> <command>                         :         To execute a command in a running container.
+docker rm <container-id1> <id2> <id3>                      :         To remove containers. 
+docker stop <container-id>                                 :         To stop container.
+docker run -d <image-name>                                 :         To run the container in the background. (Detach Mode)
+docker run -it <image-name>                                :         To run the container in the interactive mode.
+docker inspect <container-name>                            :         To get the properties details of container.
+docker-compose.yml                                         :         To create a compose file.
+docker run -p hostPort:containerPort -d <image-name>       :         To run the image at specific host port. (port-mapping)
+docker run -it -v <volume-name>:<path> <image-name>        :         To create a volume. 
+docker logs <container-id>                                 :         To get the logs of container.
+docker container ls                                        :         To list all the running container.
+docker container ls -a                                     :         To list all the containers.
+docker stop <container-id>                                 :         To stop the container.
+docker image history <image-id>                            :         To get the image history. 
+docker container prune                                     :         To remove all the stopped containers. 
+docker system df                                           :         To get all details of docker system.
+docker network create <network-name>                       :         To create a network.
+<docker-compose> up/down                                   :         To start/stop docker compose file.
+<docker-compose> -d                                        :         To run docker compose in detach mode.
+<docker-compose> -v                                        :         To remove networks/volumes upon stop.
+<docker-compose> --build                                   :         To again build image & run.
+
+
+
+docker stats --no-stream
+docker swarm init
+docker stack services myapp
+docker command to create 2 VMs
+what is the default logging drive for docker?
+what are the ways to create a docker image
+$ docker build -t print-date-time --no-cache
+ docker inspect --format=' { {json.Config}}' $INSTANCE_ID
+
+
+
+==================================
+InsightsAPP linux setup:
+-> neo4j = version, neo4j then new password Devops@123
+-> postgres = for pgadmin nishkarsh.jain2@cognizant.com, Devops@123, Grafana pwd- C0gnizant@1
+-> Grafana = 10.0.0 C0gnizant@1
+
+
+
+
+What & Why Git?
+-> Git is a version control system.
+-> Free & open source. 
+-> Keep track of code changes (who made & when)
+-> Easy collaboration with others on code.
+-> Easy recovery of source code.
+
+Features?
+-> Manage projects with Repositories.
+-> Clone project to work on.
+-> Create branch & merge.
+-> Pull & Push local changes to main project.
+
+
+Git vs Github?
+-> Definition: Git is a version control system (software) whereas Github is a web-based Git repository hosting service.
+-> Purpose: Code sharing among programmers. It can be used to track changes in any set of files, not just code whereas GitHub is focused on centralized source code hosting and collaboration.
+
+
+Git commands?
+1. git --version                                          (git verion)
+2. git init                                               (Initialized empty Git repository)
+3. git status --short                                     (Current repo status)
+4. git add -A                                             (Add all file to staging area)
+5. git commit -a -m "message"                             (Drectly commit skipping file staging)
+6. git branch branch-name                                 (create a new branch)
+7. git checkout -b branch-name                            (get inside the branch if not exists will create)
+8. git checkout master + git merge branch-name            (merger the branch into master)
+9. git branch -d branch-name                              (to delete the branch)
+10. git log/diff origin/master                            (to get log or differnces)
+
+Github:
+origin/master   ===>   branch in Github repo.
+master          ===>   branch in local git.
+
+1. git remote add origin [https://github.com/repourl.git]            (specifies that you are adding a remote repository (repourl.git), with the specified URL, as an origin to your local Git repo.)
+2. git push --set-upstream origin master                             (to push our master branch to the origin url, and set it as the default remote branch)
+git pull origin                                                      (pull the changes from repo GIT FETCH + MERGE)
+3. git merge origin/master                                           (merge origin/master (i.e. github repo) into local master branch)
+4. git push origin                                                   (push local master changes to origin github repo)
+5. git clone [repo url]
+
+
+Q: Ways to create branch?
+1. Throw Github
+-> After creating branch to see all branches created locally or in github.
+-> git pull origin 
+-> git branch -a 
+
+2. Throw Git bash
+-> git push origin new-branch-name
+
+
+
+
+
+
+
+
