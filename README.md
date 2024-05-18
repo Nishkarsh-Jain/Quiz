@@ -5,7 +5,7 @@ Learnings-
 - How to fetch data form API & use it.
 - Understand react hooks like useReducer, useContext, UseEffect.
 
-<img src="" style=" width:300px ; height:300px">
+<img src="https://github.com/Nishkarsh-Jain/Quiz/blob/master/src/images/image1.png" style=" width:300px ; height:300px">
 
 **2. Animated Glassmorphism Login form** 
 
